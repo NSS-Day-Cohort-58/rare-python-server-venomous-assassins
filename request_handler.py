@@ -5,7 +5,7 @@ from urllib.parse import urlparse, parse_qs
 from views.categories_request import get_all_categories
 from views.posts_requests import get_all_posts
 from views.tag_requests import get_all_tags
-from views.user import create_user, login_user
+from views import create_user, login_user, get_all_users
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -71,9 +71,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             if resource == 'tags':
                 self._set_headers(200)
                 response = get_all_tags()
-            #if resource == 'users':
-            #    self._set_headers(200)
-            #    response = get_all_users()
+            if resource == 'users':
+               self._set_headers(200)
+               response = get_all_users()
             
         else: 
             parsed = self.parse_url(self.path)
