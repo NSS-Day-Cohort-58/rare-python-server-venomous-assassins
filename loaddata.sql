@@ -92,4 +92,15 @@ INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.c
 INSERT INTO `Users` VALUES (null, "Lorin", "Jones", "Lorin.Jones@gmail.com", "Hairbrained. Nuts. Hysterical but Harmless.", "SandwichArtist", "videodrome", "Pigpoop.jpg", 2022-10-18, 1);
 INSERT INTO `Users` VALUES (null, "Nora", "Szeto", "Nora.Szeto@gmail.com", "Master of Education. Don't fuck with me.", "R2Szeto", "operation", "puppy.jpg", 2022-10-19, 1)
 
-SELECT * FROM Users
+INSERT INTO `Tags` VALUES (null, "Treats")
+INSERT INTO `Tags` VALUES (null, "Embalming")
+INSERT INTO `Tags` VALUES (null, "Sacred Rites and Rituals")
+INSERT INTO `Tags` VALUES (null, "Hell on Earth")
+
+
+SELECT id, username
+      from Users
+      where username = "SandwichArtist"
+      and password = "videodrome"
+
+SELECT * FROM Tags
