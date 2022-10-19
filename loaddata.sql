@@ -42,6 +42,8 @@ CREATE TABLE "Posts" (
   FOREIGN KEY(`user_id`) REFERENCES `Users`(`id`)
 );
 
+ALTER TABLE "Posts" 
+DROP COLUMN "approved"
 
 CREATE TABLE "Comments" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
