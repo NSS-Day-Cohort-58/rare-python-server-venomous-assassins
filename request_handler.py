@@ -1,33 +1,36 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from typing import ValuesView
+
+from urllib.parse import urlparse, parse_qs
+from views.categories_request import get_all_categories
 from views.posts_requests import get_all_posts
 from views.tag_requests import get_all_tags
-
 from views.user import create_user, login_user
 
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
 
-    def parse_url(self):
-        """Parse the url into the resource and id"""
-        path_params = self.path.split('/')
-        resource = path_params[1]
-        if '?' in resource:
-            param = resource.split('?')[1]
-            resource = resource.split('?')[0]
-            pair = param.split('=')
-            key = pair[0]
-            value = pair[1]
-            return (resource, key, value)
-        else:
-            id = None
-            try:
-                id = int(path_params[2])
-            except (IndexError, ValueError):
-                pass
-            return (resource, id, None)
+    def parse_url(self, path):
+        url_components = urlparse(path)
+        path_params = url_components.path.strip("/").split("/")
+
+        query_params = []
+
+        if url_components.query != '':
+            query_params = url_components.query.split("&")
+
+        resource = path_params[0]
+        id = None
+
+        try:
+            id = int(path_params[1])
+        except IndexError:
+            pass  # No route parameter exists: /animals
+        except ValueError:
+            pass  # Request had trailing slash: /animals/
+
+        return (resource, id, query_params)
 
     def _set_headers(self, status):
         """Sets the status code, Content-Type and Access-Control-Allow-Origin
@@ -55,11 +58,15 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_GET(self):
         response = {}
 
-        (resource, key, trash) = self.parse_url()
+        (resource, id) = self.parse_url()
 
         if resource == 'posts':
             self._set_headers(200)
             response = get_all_posts()
+
+        if resource == 'tags':
+            self._set_headers(200)
+            response = get_all_tags()
         # if resource == 'users':
         #     self._set_headers(200)
         #     get_all_users()
@@ -69,20 +76,20 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         self.wfile.write(json.dumps(response).encode())
 
-    def do_POST(self):
-        """Make a post request to the server"""
-        self._set_headers(201)
-        content_len = int(self.headers.get('content-length', 0))
-        post_body = json.loads(self.rfile.read(content_len))
-        response = ''
-        resource, _ = self.parse_url()
+    # def do_POST(self):
+       # """Make a post request to the server"""
+       # self._set_headers(201)
+       # content_len = int(self.headers.get('content-length', 0))
+       # post_body = json.loads(self.rfile.read(content_len))
+       # response = ''
+       # resource, _ = self.parse_url()#
 
-        if resource == 'login':
-            response = login_user(post_body)
-        if resource == 'register':
-            response = create_user(post_body)
+       # if resource == 'login':
+       #     response = login_user(post_body)
+       # if resource == 'register':
+       #     response = create_user(post_body)#
 
-        self.wfile.write(response.encode())
+       # self.wfile.write(response.encode())
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
