@@ -63,9 +63,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == 'tags':
             self._set_headers(200)
             response = get_all_tags()
-        # if resource == 'users':
-        #     self._set_headers(200)
-        #     get_all_users()
+        if resource == 'users':
+            self._set_headers(200)
+            response = get_all_users()
         # if resource == 'categories':
         #     self._set_headers(200)
         #     get_all_categories(key, value)

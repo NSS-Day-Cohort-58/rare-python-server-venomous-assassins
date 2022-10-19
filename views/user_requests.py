@@ -90,6 +90,7 @@ def get_all_users():
             u.email,
             u.bio,
             u.username,
+            u.password,
             u.profile_image_url,
             u.created_on,
             u.active
@@ -103,7 +104,7 @@ def get_all_users():
 
         for row in dataset:
 
-            user = User(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['username'], row['profile_image_url'], row['created_on'], row['active'])
+            user = User(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['username'], row['password'], row['profile_image_url'], row['created_on'], row['active'])
 
             users.append(user.__dict__)
 

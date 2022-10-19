@@ -104,6 +104,8 @@ SELECT id, username
       where username = "SandwichArtist"
       and password = "videodrome"
 
-SELECT * FROM Tags
+SELECT * FROM Users
 
 INSERT INTO `Posts` VALUES (null, 1, 2, "Parsnip&Pear, new cycle syncing app", 2022-10-19, "https://media-cdn.greatbritishchefs.com/media/ejzcxjnx/img18789.jpg?mode=crop&width=1536&height=1024", "Next week, a new cycle syncing app will be released by Gracie Parce, software developer. Parsnip&Pear is devoted to teaching women about their bodies and how to live more cyclically, aligned with their menstrual cycle.")
+
+DELETE FROM Users WHERE id >0
