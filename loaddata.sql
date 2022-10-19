@@ -38,8 +38,10 @@ CREATE TABLE "Posts" (
   "publication_date" date,
   "image_url" varchar,
   "content" varchar,
+  
   FOREIGN KEY(`user_id`) REFERENCES `Users`(`id`)
 );
+
 
 CREATE TABLE "Comments" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -87,18 +89,3 @@ CREATE TABLE "Categories" (
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
-
-INSERT INTO `Users` VALUES (null, "Lorin", "Jones", "Lorin.Jones@gmail.com", "Hairbrained. Nuts. Hysterical but Harmless.", "SandwichArtist", "videodrome", "Pigpoop.jpg", 2022-10-18, 1);
-INSERT INTO `Users` VALUES (null, "Nora", "Szeto", "Nora.Szeto@gmail.com", "Master of Education. Don't fuck with me.", "R2Szeto", "operation", "puppy.jpg", 2022-10-19, 1);
-
-
-INSERT INTO `Categories` VALUES (null, "Health");
-INSERT INTO `Categories` VALUES (null, "Sports");
-INSERT INTO `Categories` VALUES (null, "Fashion");
-INSERT INTO `Categories` VALUES (null, "Movies");
-
-SELECT * FROM Categories c
-ORDER BY c.label;
-
-INSERT INTO `Posts` VALUES (null, 1, 2, "Parsnip&Pear, new cycle syncing app", 2022-10-19, "https://media-cdn.greatbritishchefs.com/media/ejzcxjnx/img18789.jpg?mode=crop&width=1536&height=1024", "Next week, a new cycle syncing app will be released by Gracie Parce, software developer. Parsnip&Pear is devoted to teaching women about their bodies and how to live more cyclically, aligned with their menstrual cycle.");
-
