@@ -89,7 +89,7 @@ INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
 
-INSERT INTO `Users` VALUES (null, "Lorin", "Jones", "Lorin.Jones@gmail.com", "Hairbrained. Nuts. Hysterical but Harmless.", "SandwichArtist", "videodrome", "Pigpoop.jpg", 2022-10-18, 1);
+INSERT INTO `Users` VALUES (null, "Lorin", "Jones", "Lorin.Jones@gmail.com", "Hairbrained. Nuts. Hysterical but Harmless.", "SandwichArtist", "videodrome", "Pigpoop.jpg", 2022-10-18, 1)
 INSERT INTO `Users` VALUES (null, "Nora", "Szeto", "Nora.Szeto@gmail.com", "Master of Education. Don't fuck with me.", "R2Szeto", "operation", "puppy.jpg", 2022-10-19, 1)
 
 SELECT * FROM Users
