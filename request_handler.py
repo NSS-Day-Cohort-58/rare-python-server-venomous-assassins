@@ -26,7 +26,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 id = int(path_params[2])
             except (IndexError, ValueError):
                 pass
-            return (resource, id)
+            return (resource, id, None)
 
     def _set_headers(self, status):
         """Sets the status code, Content-Type and Access-Control-Allow-Origin
@@ -54,17 +54,17 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_GET(self):
         response = {}
 
-        (resource, id) = self.parse_url()
+        (resource, key, trash) = self.parse_url()
 
         if resource == 'posts':
             self._set_headers(200)
             response = get_all_posts()
-        # if resource == 'users':
-        #     self._set_headers(200)
-        #     get_all_users()
-        # if resource == 'categories':
-        #     self._set_headers(200)
-        #     get_all_categories(key, value)
+        if resource == 'users':
+            self._set_headers(200)
+            get_all_users()
+        if resource == 'categories':
+            self._set_headers(200)
+            get_all_categories(key, trash)
 
         self.wfile.write(json.dumps(response).encode())
 
