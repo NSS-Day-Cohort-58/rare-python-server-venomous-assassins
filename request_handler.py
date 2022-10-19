@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from typing import ValuesView
 from views.posts_requests import get_all_posts
+from views.tag_requests import get_all_tags
 
 from views.user import create_user, login_user
 
@@ -59,6 +60,10 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == 'posts':
             self._set_headers(200)
             response = get_all_posts()
+
+        if resource == 'tags':
+            self._set_headers(200)
+            response = get_all_tags()
         # if resource == 'users':
         #     self._set_headers(200)
         #     get_all_users()
