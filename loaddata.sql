@@ -38,9 +38,11 @@ CREATE TABLE "Posts" (
   "publication_date" date,
   "image_url" varchar,
   "content" varchar,
-  "approved" bit,
   FOREIGN KEY(`user_id`) REFERENCES `Users`(`id`)
 );
+
+ALTER TABLE "Posts" 
+DROP COLUMN "approved"
 
 CREATE TABLE "Comments" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -104,3 +106,5 @@ SELECT id, username
       and password = "videodrome"
 
 SELECT * FROM Tags
+
+INSERT INTO `Posts` VALUES (null, 1, 2, "Parsnip&Pear, new cycle syncing app", 2022-10-19, "https://media-cdn.greatbritishchefs.com/media/ejzcxjnx/img18789.jpg?mode=crop&width=1536&height=1024", "Next week, a new cycle syncing app will be released by Gracie Parce, software developer. Parsnip&Pear is devoted to teaching women about their bodies and how to live more cyclically, aligned with their menstrual cycle.")
