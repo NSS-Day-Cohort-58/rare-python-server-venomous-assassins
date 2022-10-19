@@ -1,6 +1,7 @@
 import sqlite3
 from models.post import Post
 from models.user import User
+from models.category import Category
 
 
 def get_all_posts():

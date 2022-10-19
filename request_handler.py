@@ -58,7 +58,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_GET(self):
         response = {}
 
-        (resource, id) = self.parse_url()
+        (resource, id, query_params) = self.parse_url()
 
         if resource == 'posts':
             self._set_headers(200)
