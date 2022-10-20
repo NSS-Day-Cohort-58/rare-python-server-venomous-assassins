@@ -60,6 +60,29 @@ def get_all_posts():
 
         return posts
 
+def get_single_post(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT 
+            p.*
+        FROM Posts p
+        WHERE p.id = ?
+        """, (id, ))
+
+        data = db_cursor.fetchone()
+
+        post = Post(data['id'], data['user_id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'])
+
+        return post.__dict__
+
+#def update_post(id, updated_post):
+    #add code here for update
+
+
+
+
 
 def create_post(new_post):
     with sqlite3.connect("./db.sqlite3") as conn:

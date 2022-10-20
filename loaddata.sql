@@ -124,3 +124,4 @@ INSERT INTO `Posts` VALUES (null, 2, 2, "Parsnip&Pear, new cycle syncing app", 2
 
 DELETE FROM Posts 
 WHERE id = 3;
+
