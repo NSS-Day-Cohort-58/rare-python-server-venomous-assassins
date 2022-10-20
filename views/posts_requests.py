@@ -2,6 +2,7 @@ import sqlite3
 from models.post import Post
 from models.user import User
 from models.category import Category
+import json
 
 
 def get_all_posts():
@@ -58,3 +59,21 @@ def get_all_posts():
             posts.append(post.__dict__)
 
         return posts
+
+
+def create_post(new_post):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Posts
+            ( user_id, category_id, title, publication_date, image_url, content )
+        VALUES
+            ( ?, ?, ?, ?, ?, ?);
+        """, (new_post['user_id'], new_post['category_id'], new_post['title'], new_post['publication_date'], new_post['image_url'], new_post['content'], ))
+
+        id = db_cursor.lastrowid
+
+        new_post['id'] = id
+
+    return json.dumps(new_post)
