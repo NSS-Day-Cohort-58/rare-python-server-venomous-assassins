@@ -103,7 +103,7 @@ SELECT id, username
       where username = "SandwichArtist"
       and password = "videodrome"
 
-SELECT * FROM Users
+SELECT * FROM Tags
 
 INSERT INTO `Tags` VALUES (null, "Treats")
 INSERT INTO `Tags` VALUES (null, "Embalming")

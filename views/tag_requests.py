@@ -43,11 +43,11 @@ def create_tag(new_tag):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        INSERT INTO tags
+        INSERT INTO Tags
             ( label )
         VALUES
             ( ? );
-        """, (new_tag['label']))
+        """, (new_tag['label'],))
 
         # The `lastrowid` property on the cursor will return
         # the primary key of the last thing that got added to
