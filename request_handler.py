@@ -3,7 +3,7 @@ import json
 
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import get_all_categories
-from views.posts_requests import get_all_posts
+from views.posts_requests import get_all_posts, create_post
 from views.tag_requests import create_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users
 
@@ -88,20 +88,22 @@ class HandleRequests(BaseHTTPRequestHandler):
         self._set_headers(201)
         content_len = int(self.headers.get('content-length', 0))
         post_body = json.loads(self.rfile.read(content_len))
-        
+
         parsed = self.parse_url(self.path)
         (resource, id, query_params) = parsed
 
         response = None
-        
+
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':
             response = create_user(post_body)
         if resource == 'tags':
             response = create_tag(post_body)
+        if resource == 'posts':
+            response = create_post(post_body)
 
-        self.wfile.write(json.dumps(response).encode())
+        self.wfile.write(response.encode())
 
     def do_PUT(self):
         # self._set_headers(204)

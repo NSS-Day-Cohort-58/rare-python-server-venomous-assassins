@@ -1,3 +1,4 @@
+import json
 import sqlite3
 
 from models.tag import Tag
@@ -59,7 +60,7 @@ def create_tag(new_tag):
         # primary key in the response.
         new_tag['id'] = id
 
-    return new_tag
+    return json.dumps(new_tag)
 
 def update_tag(id, new_tag):
     with sqlite3.connect("./db.sqlite3") as conn:
