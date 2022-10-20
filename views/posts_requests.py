@@ -18,14 +18,23 @@ def get_all_posts():
             p.title,
             p.publication_date,
             p.image_url,
-            p.content
-            u.first_name user_first
-            u.last_name user_last
+            p.content,
+            u.id user_id,
+            u.first_name user_first,
+            u.last_name user_last,
+            u.email user_email,
+            u.bio user_bio,
+            u.username user_username,
+            u.password user_password,
+            u.profile_image_url user_img,
+            u.created_on user_created,
+            u.active user_active,
+            c.id category_id,
             c.label category_name
         FROM Posts p
-        JOIN 'Users' u
+        JOIN Users u
             ON u.id = p.user_id
-        JOIN 'Categories' c
+        JOIN Categories c
             ON c.id = p.category_id
         ORDER BY publication_date DESC
         """)
@@ -34,15 +43,13 @@ def get_all_posts():
 
         dataset = db_cursor.fetchall()
 
-        # Iterate list of data returned from database
         for row in dataset:
 
-            # Create an animal instance from the current row
             post = Post(row['id'], row['user_id'], row['category_id'], row['title'],
                         row['publication_date'], row['image_url'], row['content'])
 
-            user = User(row['user_id'], row['user_first'], row['user_last'], row['email'], row['bio'],
-                        row['username'], row['password'], row['profile_image_url'], row['created_on'], row['active'])
+            user = User(row['user_id'], row['user_first'], row['user_last'], row['user_email'], row['user_bio'],
+                        row['user_username'], row['user_password'], row['user_img'], row['user_created'], row['user_active'])
 
             category = Category(row['category_id'], row['category_name'])
 
