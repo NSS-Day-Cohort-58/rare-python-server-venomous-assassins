@@ -60,4 +60,4 @@ def create_tag(new_tag):
         # primary key in the response.
         new_tag['id'] = id
 
-    return new_tag
+    return json.dumps(new_tag)
