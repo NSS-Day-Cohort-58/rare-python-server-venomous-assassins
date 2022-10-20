@@ -4,7 +4,7 @@ import json
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import get_all_categories
 from views.posts_requests import get_all_posts
-from views.tag_requests import get_all_tags
+from views.tag_requests import create_tag, get_all_tags
 from views import create_user, login_user, get_all_users
 
 
@@ -83,20 +83,25 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         self.wfile.write(json.dumps(response).encode())
 
-    # def do_POST(self):
-       # """Make a post request to the server"""
-       # self._set_headers(201)
-       # content_len = int(self.headers.get('content-length', 0))
-       # post_body = json.loads(self.rfile.read(content_len))
-       # response = ''
-       # resource, _ = self.parse_url()#
+    def do_POST(self):
+        """Make a post request to the server"""
+        self._set_headers(201)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = json.loads(self.rfile.read(content_len))
+        
+        parsed = self.parse_url(self.path)
+        (resource, id, query_params) = parsed
 
-       # if resource == 'login':
-       #     response = login_user(post_body)
-       # if resource == 'register':
-       #     response = create_user(post_body)#
+        response = None
+        
+        if resource == 'login':
+            response = login_user(post_body)
+        if resource == 'register':
+            response = create_user(post_body)
+        if resource == 'tags':
+            response = create_tag(post_body)
 
-       # self.wfile.write(response.encode())
+        self.wfile.write(json.dumps(response).encode())
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
