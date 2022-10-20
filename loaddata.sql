@@ -119,5 +119,36 @@ SELECT id, username
 SELECT * FROM Users
 
 INSERT INTO `Posts` VALUES (null, 1, 2, "Parsnip&Pear, new cycle syncing app", 2022-10-19, "https://media-cdn.greatbritishchefs.com/media/ejzcxjnx/img18789.jpg?mode=crop&width=1536&height=1024", "Next week, a new cycle syncing app will be released by Gracie Parce, software developer. Parsnip&Pear is devoted to teaching women about their bodies and how to live more cyclically, aligned with their menstrual cycle.")
-SELECT * FROM Posts
 
+
+SELECT
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            u.id user_id,
+            u.first_name user_first,
+            u.last_name user_last,
+            u.email user_email,
+            u.bio user_bio,
+            u.username user_username,
+            u.password user_password,
+            u.profile_image_url user_img,
+            u.created_on user_created,
+            u.active user_active,
+            c.id category_id,
+            c.label category_name
+        FROM Posts p
+        JOIN Users u
+            ON u.id = p.user_id
+        JOIN Categories c
+            ON c.id = p.category_id
+        ORDER BY publication_date DESC
+
+        INSERT INTO `Categories` VALUES (null, "Health");
+INSERT INTO `Categories` VALUES (null, "Sports");
+INSERT INTO `Categories` VALUES (null, "Fashion");
+INSERT INTO `Categories` VALUES (null, "Movies");
