@@ -14,10 +14,8 @@ class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
         url_components = urlparse(path)
         path_params = url_components.path.strip("/").split("/")
-        
-        
-        query_params = []
 
+        query_params = []
 
         if url_components.query != '':
             query_params = url_components.query.split("&")
@@ -72,10 +70,10 @@ class HandleRequests(BaseHTTPRequestHandler):
                 self._set_headers(200)
                 response = get_all_tags()
             if resource == 'users':
-               self._set_headers(200)
-               response = get_all_users()
-            
-        else: 
+                self._set_headers(200)
+                response = get_all_users()
+
+        else:
             parsed = self.parse_url(self.path)
             (resource, id, query_params) = parsed
 
@@ -83,10 +81,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                 self._set_headers(200)
                 response = get_all_categories(query_params)
 
-
         self.wfile.write(json.dumps(response).encode())
 
-    #def do_POST(self):
+    # def do_POST(self):
        # """Make a post request to the server"""
        # self._set_headers(201)
        # content_len = int(self.headers.get('content-length', 0))
