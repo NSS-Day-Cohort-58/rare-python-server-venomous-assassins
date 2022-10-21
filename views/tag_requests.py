@@ -84,3 +84,12 @@ def update_tag(id, new_tag):
     else:
         # Forces 204 response by main module
         return True
+
+def delete_tag(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM tags
+        WHERE id = ?
+        """, (id, ))
