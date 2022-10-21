@@ -9,6 +9,7 @@ from views.categories_request import get_all_categories, create_category
 
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users
+from views.user_requests import get_single_user
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -78,8 +79,12 @@ class HandleRequests(BaseHTTPRequestHandler):
                 self._set_headers(200)
                 response = get_all_tags()
             if resource == 'users':
-                self._set_headers(200)
-                response = get_all_users()
+                if id is None:
+                    self._set_headers(200)
+                    response = get_all_users()
+                else:
+                    self._set_headers(200)
+                    response = get_single_user(id)
 
         else:
             parsed = self.parse_url(self.path)
