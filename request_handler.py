@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 from urllib.parse import urlparse, parse_qs
-from views.categories_request import get_all_categories
+from views.categories_request import create_category, get_all_categories
 from views.posts_requests import get_all_posts, create_post, get_single_post
 from views.tag_requests import create_tag, get_all_tags
 from views import create_user, login_user, get_all_users
@@ -12,6 +12,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
 
     def parse_url(self, path):
+        '''parses url'''
         url_components = urlparse(path)
         path_params = url_components.path.strip("/").split("/")
 
@@ -106,6 +107,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             response = create_tag(post_body)
         if resource == 'posts':
             response = create_post(post_body)
+        if resource == 'categories':
+            response = create_category(post_body)
 
         self.wfile.write(response.encode())
 
