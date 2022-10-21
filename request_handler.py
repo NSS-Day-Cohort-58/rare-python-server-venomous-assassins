@@ -2,13 +2,13 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 from urllib.parse import urlparse, parse_qs
-<<<<<<< HEAD
+
 from views.categories_request import create_category, get_all_categories
 from views.posts_requests import get_all_posts, create_post
-=======
+
 from views.categories_request import get_all_categories
 from views.posts_requests import get_all_posts, create_post, get_single_post
->>>>>>> 673b0fc76bc0f8cf29ba03266dc17834d204e068
+
 from views.tag_requests import create_tag, get_all_tags
 from views import create_user, login_user, get_all_users
 
