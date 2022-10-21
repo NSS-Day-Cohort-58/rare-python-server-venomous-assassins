@@ -4,7 +4,7 @@ import json
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
 from views.posts_requests import delete_post, get_all_posts, create_post, get_single_post
-from views.tag_requests import create_tag, get_all_tags
+from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users
 
 
@@ -113,8 +113,27 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def do_PUT(self):
-        """Handles PUT requests to the server"""
-        pass
+        # self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        parsed = self.parse_url(self.path)
+        (resource, id, query_params) = parsed
+
+        success = False
+
+        # Delete a single animal from the list
+        if resource == "tags":
+            success = update_tag(id, post_body)
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         (resource, id, query_params) = self.parse_url(self.path)
@@ -122,6 +141,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "posts":
             delete_post(id)
             self._set_headers(204)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
 
 def main():
