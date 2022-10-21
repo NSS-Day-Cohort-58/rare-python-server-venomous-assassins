@@ -3,7 +3,7 @@ import json
 
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
-from views.posts_requests import get_all_posts, create_post, get_single_post
+from views.posts_requests import get_all_posts, create_post, get_single_post, update_post
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users
 
@@ -64,8 +64,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             (resource, id, query_params) = parsed
 
             if resource == 'posts':
-                self._set_headers(200)
-                response = get_all_posts()
+                if id is None:
+                    self._set_headers(200)
+                    response = get_all_posts()
+                else: 
+                    self._set_headers(200)
+                    response = get_single_post(id)
 
             if resource == 'tags':
                 self._set_headers(200)
@@ -109,25 +113,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def do_PUT(self):
-<<<<<<< HEAD
         """Handles PUT requests to the server"""
-        self._set_headers(204)
-       #content_len = int(self.headers.get('content-length', 0))
-       #post_body = json.loads(self.rfile.read(content_len))
 
-       #parsed = self.parse_url(self.path)
-
-       #(resource, id, query_params) = parsed
-
-       #if resource == "posts":
-       #    update_post(id, post_body)
-
-       #self.wfile.write("".encode())
-
-
-
-        pass
-=======
         # self._set_headers(204)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
@@ -142,6 +129,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single animal from the list
         if resource == "tags":
             success = update_tag(id, post_body)
+        if resource == "posts":
+           success = update_post(id, post_body)
 
         if success:
             self._set_headers(204)
@@ -150,7 +139,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Encode the new animal and send in response
         self.wfile.write("".encode())
 
->>>>>>> b9500f26aa1edfb5f98ca5053926d012318e7953
+
 
     def do_DELETE(self):
         # Set a 204 response code

@@ -63,12 +63,28 @@ def get_all_posts():
 
 
 
-#def update_post(id, updated_post):
-    #add code here for update
+def update_post(id, updated_post):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
 
+        db_cursor.execute("""
+        UPDATE Posts
+            SET
+                user_id = ?,
+                category_id = ?,
+                title = ?,
+                publication_date = ?,
+                image_url = ?,
+                content = ?
+        WHERE id = ?
+        """, (updated_post["user_id"], updated_post["category_id"], updated_post["title"], updated_post["publication_date"], updated_post["image_url"], updated_post["content"], id, ))
 
+        rows_affected = db_cursor.rowcount
 
-
+    if rows_affected == 0:
+        return False
+    else: 
+        return True
 
 def create_post(new_post):
     with sqlite3.connect("./db.sqlite3") as conn:
