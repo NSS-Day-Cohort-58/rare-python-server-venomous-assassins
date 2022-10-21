@@ -3,7 +3,10 @@ import json
 
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
-from views.posts_requests import get_all_posts, create_post, get_single_post, update_post
+from views.posts_requests import get_all_posts, create_post, get_single_post, delete_post, update_post
+
+from views.categories_request import get_all_categories, create_category
+
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users
 
@@ -120,13 +123,11 @@ class HandleRequests(BaseHTTPRequestHandler):
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
 
-        # Parse the URL
         parsed = self.parse_url(self.path)
         (resource, id, query_params) = parsed
 
         success = False
 
-        # Delete a single animal from the list
         if resource == "tags":
             success = update_tag(id, post_body)
         if resource == "posts":
@@ -136,26 +137,22 @@ class HandleRequests(BaseHTTPRequestHandler):
             self._set_headers(204)
         else:
             self._set_headers(404)
-        # Encode the new animal and send in response
         self.wfile.write("".encode())
-
 
 
     def do_DELETE(self):
-        # Set a 204 response code
-        self._set_headers(204)
+        (resource, id, query_params) = self.parse_url(self.path)
 
-        # Parse the URL
-        parsed = self.parse_url(self.path)
-        (resource, id, query_params) = parsed
-
-        # Delete a single animal from the list
         if resource == "tags":
             delete_tag(id)
-        
+            self._set_headers(204)
 
-        # Encode the new animal and send in response
+        if resource == "posts":
+            delete_post(id)
+            self._set_headers(204)
+
         self.wfile.write("".encode())
+
 
 def main():
     """Starts the server on port 8088 using the HandleRequests class
