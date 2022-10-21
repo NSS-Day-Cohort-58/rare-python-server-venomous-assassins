@@ -1,3 +1,4 @@
+from cProfile import label
 import sqlite3
 from models.post import Post
 from models.user import User
@@ -62,18 +63,26 @@ def get_all_posts():
 
 def get_single_post(id):
     with sqlite3.connect("./db.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
         SELECT 
-            p.*
+            p.*,
+            c.*
         FROM Posts p
+        JOIN Categories c 
+        ON c.id = p.category_id
         WHERE p.id = ?
         """, (id, ))
 
         data = db_cursor.fetchone()
 
         post = Post(data['id'], data['user_id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'])
+
+        category = Category(data['id'], data['label'])
+
+        post.category = category.__dict__
 
         return post.__dict__
 
