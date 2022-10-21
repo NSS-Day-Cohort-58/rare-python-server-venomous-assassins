@@ -4,9 +4,13 @@ import json
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
 from views.comment_requests import get_comments_by_post_id
-from views.posts_requests import delete_post, get_all_posts, create_post, get_single_post
+from views.posts_requests import get_all_posts, create_post, get_single_post, delete_post, update_post
+
+from views.categories_request import get_all_categories, create_category
+
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users
+from views.user_requests import get_single_user
 from views import create_comment
 
 
@@ -70,15 +74,19 @@ class HandleRequests(BaseHTTPRequestHandler):
                     self._set_headers(200)
                     response = get_all_posts()
                 else:
-                    response = get_single_post(id)
                     self._set_headers(200)
+                    response = get_single_post(id)
 
             if resource == 'tags':
                 self._set_headers(200)
                 response = get_all_tags()
             if resource == 'users':
-                self._set_headers(200)
-                response = get_all_users()
+                if id is None:
+                    self._set_headers(200)
+                    response = get_all_users()
+                else:
+                    self._set_headers(200)
+                    response = get_single_user(id)
             if resource == 'comments':
                 if id is None:
                     self._set_headers(200)
@@ -126,6 +134,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def do_PUT(self):
+        """Handles PUT requests to the server"""
+
         # self._set_headers(204)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
@@ -138,6 +148,8 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "tags":
             success = update_tag(id, post_body)
+        if resource == "posts":
+            success = update_post(id, post_body)
 
         if success:
             self._set_headers(204)
