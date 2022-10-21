@@ -108,3 +108,7 @@ INSERT INTO `Posts` VALUES (null, 2, 2, "Parsnip&Pear, new cycle syncing app", 2
 
 DELETE FROM Posts 
 WHERE id = 3;
+
+UPDATE Users
+Set profile_image_url = "http://alexpeak.com/art/films/tta/toxie.jpg"
+WHERE id = 1
