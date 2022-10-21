@@ -118,13 +118,11 @@ class HandleRequests(BaseHTTPRequestHandler):
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
 
-        # Parse the URL
         parsed = self.parse_url(self.path)
         (resource, id, query_params) = parsed
 
         success = False
 
-        # Delete a single animal from the list
         if resource == "tags":
             success = update_tag(id, post_body)
 
@@ -132,17 +130,19 @@ class HandleRequests(BaseHTTPRequestHandler):
             self._set_headers(204)
         else:
             self._set_headers(404)
-        # Encode the new animal and send in response
         self.wfile.write("".encode())
 
     def do_DELETE(self):
         (resource, id, query_params) = self.parse_url(self.path)
 
+        if resource == "tags":
+            delete_tag(id)
+            self._set_headers(204)
+
         if resource == "posts":
             delete_post(id)
             self._set_headers(204)
 
-        # Encode the new animal and send in response
         self.wfile.write("".encode())
 
 
