@@ -3,7 +3,7 @@ import json
 
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
-from views.posts_requests import get_all_posts, create_post, get_single_post
+from views.posts_requests import delete_post, get_all_posts, create_post, get_single_post
 from views.tag_requests import create_tag, get_all_tags
 from views import create_user, login_user, get_all_users
 
@@ -117,8 +117,11 @@ class HandleRequests(BaseHTTPRequestHandler):
         pass
 
     def do_DELETE(self):
-        """Handle DELETE Requests"""
-        pass
+        (resource, id, query_params) = self.parse_url(self.path)
+
+        if resource == "posts":
+            delete_post(id)
+            self._set_headers(204)
 
 
 def main():
