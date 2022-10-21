@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 from urllib.parse import urlparse, parse_qs
-from views.categories_request import get_all_categories, create_category
+from views.categories_request import create_category, get_all_categories
 from views.posts_requests import get_all_posts, create_post, get_single_post
 from views.tag_requests import create_tag, get_all_tags
 from views import create_user, login_user, get_all_users
@@ -64,12 +64,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             (resource, id, query_params) = parsed
 
             if resource == 'posts':
-                if id is not None: 
-                    self._set_headers(200)
-                    response = get_single_post(id)
-                else:
-                    self._set_headers(200)
-                    response = get_all_posts()
+                self._set_headers(200)
+                response = get_all_posts()
 
             if resource == 'tags':
                 self._set_headers(200)
