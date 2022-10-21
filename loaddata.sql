@@ -108,3 +108,13 @@ INSERT INTO `Posts` VALUES (null, 2, 2, "Parsnip&Pear, new cycle syncing app", 2
 
 DELETE FROM Posts 
 WHERE id = 3;
+
+
+SELECT 
+    p.*,
+    c.*
+FROM Posts p
+JOIN Categories c 
+  ON c.id = p.category_id
+WHERE p.id = 1; 
+
