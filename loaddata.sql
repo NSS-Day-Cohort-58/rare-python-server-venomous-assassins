@@ -126,3 +126,20 @@ INSERT INTO `Comments` VALUES (null, 3, 1, "I guess this is helpful. 5 out of 10
 INSERT INTO `Comments` VALUES (null, 4, 2, "You're so cool!");
 INSERT INTO `Comments` VALUES (null, 2, 1, "kinda hated it");
 
+INSERT INTO `PostTags` VALUES (null, 4, 2);
+INSERT INTO  `PostTags` VALUES (null, 1, 5);
+INSERT INTO `PostTags` VALUES (null, 4, 1);
+
+SELECT 
+  pt.*,
+  t.label
+FROM PostTags pt
+JOIN Tags t
+  ON t.id = pt.tag_id
+WHERE post_id = 5;
+
+DELETE FROM PostTags
+WHERE post_id IN (12, 13, 14, 15, 16);
+
+DELETE FROM Posts
+WHERE id IN (12, 13, 14, 15, 16); 
