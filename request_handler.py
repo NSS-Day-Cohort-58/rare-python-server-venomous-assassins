@@ -8,7 +8,7 @@ from views.posts_requests import get_all_posts, create_post, get_single_post, de
 from views.categories_request import get_all_categories, create_category
 
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
-from views import create_user, login_user, get_all_users
+from views import create_user, login_user, get_all_users, create_subscription, get_all_subscriptions,delete_subscription
 from views.user_requests import get_single_user
 
 
@@ -85,6 +85,10 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     self._set_headers(200)
                     response = get_single_user(id)
+            if resource == 'subscriptions':
+                if id is None:
+                    self._set_headers(200)
+                    response = get_all_subscriptions()
 
         else:
             parsed = self.parse_url(self.path)
@@ -117,6 +121,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             response = create_post(post_body)
         if resource == 'categories':
             response = create_category(post_body)
+        if resource == 'subscriptions':
+            response = create_subscription(post_body)
 
         self.wfile.write(response.encode())
 
@@ -154,6 +160,10 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "posts":
             delete_post(id)
+            self._set_headers(204)
+
+        if resource == "subscriptions":
+            delete_subscription(id)
             self._set_headers(204)
 
         self.wfile.write("".encode())
