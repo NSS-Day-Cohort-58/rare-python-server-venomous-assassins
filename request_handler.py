@@ -4,6 +4,7 @@ import json
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
 from views.comment_requests import get_comments_by_post_id
+from views.post_tags_requests import create_post_tag, get_all_post_tags
 from views.posts_requests import get_all_posts, create_post, get_single_post, delete_post, update_post
 from views.categories_request import get_all_categories, create_category
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
@@ -67,6 +68,11 @@ class HandleRequests(BaseHTTPRequestHandler):
             parsed = self.parse_url(self.path)
             (resource, id, query_params) = parsed
 
+            if resource =='post_tags':
+                self._set_headers(200)
+                response = get_all_post_tags()
+
+
             if resource == 'posts':
                 if id is None:
                     self._set_headers(200)
@@ -78,6 +84,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if resource == 'tags':
                 self._set_headers(200)
                 response = get_all_tags()
+                
             if resource == 'users':
                 if id is None:
                     self._set_headers(200)
@@ -103,6 +110,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             if resource == 'categories':
                 self._set_headers(200)
                 response = get_all_categories(query_params)
+            if resource == 'post_tags':
+                self._set_headers(200)
+                response = get_all_post_tags(query_params)
 
         self.wfile.write(json.dumps(response).encode())
 
@@ -116,7 +126,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id, query_params) = parsed
 
         response = None
-
+        if resource == 'post_tags':
+            response = create_post_tag(post_body)
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':
