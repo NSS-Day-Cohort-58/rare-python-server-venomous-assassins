@@ -78,6 +78,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if resource == 'tags':
                 self._set_headers(200)
                 response = get_all_tags()
+                
             if resource == 'users':
                 if id is None:
                     self._set_headers(200)

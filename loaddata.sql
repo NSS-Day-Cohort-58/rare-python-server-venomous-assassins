@@ -111,9 +111,9 @@ WHERE id = 3;
 
 UPDATE Users
 Set profile_image_url = "http://alexpeak.com/art/films/tta/toxie.jpg"
-WHERE id = 1
+WHERE id = 1;
 
 UPDATE Users
 Set profile_image_url = "https://news.cornell.edu/sites/default/files/styles/story_thumbnail_xlarge/public/2020-05/0505_daog1.jpg"
-WHERE id = 2
+WHERE id = 2;
 
