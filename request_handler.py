@@ -3,6 +3,7 @@ import json
 
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
+from views.comment_requests import get_comments_by_post_id
 from views.posts_requests import get_all_posts, create_post, get_single_post, delete_post, update_post
 
 from views.categories_request import get_all_categories, create_category
@@ -10,6 +11,7 @@ from views.categories_request import get_all_categories, create_category
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users, create_subscription, get_all_subscriptions,delete_subscription
 from views.user_requests import get_single_user
+from views import create_comment
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -71,7 +73,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is None:
                     self._set_headers(200)
                     response = get_all_posts()
-                else: 
+                else:
                     self._set_headers(200)
                     response = get_single_post(id)
 
@@ -89,6 +91,12 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is None:
                     self._set_headers(200)
                     response = get_all_subscriptions()
+            if resource == 'comments':
+                if id is None:
+                    self._set_headers(200)
+                else:
+                    self._set_headers(200)
+                    response = get_comments_by_post_id(id)
 
         else:
             parsed = self.parse_url(self.path)
@@ -123,6 +131,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             response = create_category(post_body)
         if resource == 'subscriptions':
             response = create_subscription(post_body)
+        if resource == 'comments':
+            if id is None:
+                self._set_headers(404)
+            else:
+                self._set_headers(200)
+                response = create_comment(post_body)
 
         self.wfile.write(response.encode())
 
@@ -142,14 +156,14 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "tags":
             success = update_tag(id, post_body)
         if resource == "posts":
-           success = update_post(id, post_body)
+            success = update_post(id, post_body)
 
         if success:
             self._set_headers(204)
         else:
             self._set_headers(404)
-        self.wfile.write("".encode())
 
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         (resource, id, query_params) = self.parse_url(self.path)
