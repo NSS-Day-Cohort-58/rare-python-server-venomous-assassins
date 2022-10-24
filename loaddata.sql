@@ -30,6 +30,8 @@ CREATE TABLE "Subscriptions" (
   FOREIGN KEY(`author_id`) REFERENCES `Users`(`id`)
 );
 
+INSERT INTO `Subscriptions` VALUES (Null, 2, 1, 1666383212167)
+
 CREATE TABLE "Posts" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
   "user_id" INTEGER,
@@ -117,4 +119,10 @@ UPDATE Users
 Set profile_image_url = "https://news.cornell.edu/sites/default/files/styles/story_thumbnail_xlarge/public/2020-05/0505_daog1.jpg"
 WHERE id = 2
 
-SELECT * FROM Posts
+
+
+INSERT INTO `Comments` VALUES (null, 2, 2, "LOVE IT!");
+INSERT INTO `Comments` VALUES (null, 3, 1, "I guess this is helpful. 5 out of 10");
+INSERT INTO `Comments` VALUES (null, 4, 2, "You're so cool!");
+INSERT INTO `Comments` VALUES (null, 2, 1, "kinda hated it");
+
