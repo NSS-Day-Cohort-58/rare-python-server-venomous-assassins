@@ -5,9 +5,7 @@ from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
 from views.comment_requests import get_comments_by_post_id
 from views.posts_requests import get_all_posts, create_post, get_single_post, delete_post, update_post
-
 from views.categories_request import get_all_categories, create_category
-
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
 from views import create_user, login_user, get_all_users, create_subscription, get_all_subscriptions,delete_subscription
 from views.user_requests import get_single_user
