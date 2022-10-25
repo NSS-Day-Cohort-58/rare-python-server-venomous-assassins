@@ -130,16 +130,42 @@ INSERT INTO `PostTags` VALUES (null, 4, 2);
 INSERT INTO  `PostTags` VALUES (null, 1, 5);
 INSERT INTO `PostTags` VALUES (null, 4, 1);
 
-SELECT 
-  pt.*,
-  t.label
-FROM PostTags pt
-JOIN Tags t
-  ON t.id = pt.tag_id
-WHERE post_id = 5;
+SELECT * FROM PostTags
 
 DELETE FROM PostTags
 WHERE post_id IN (12, 13, 14, 15, 16);
 
 DELETE FROM Posts
 WHERE id IN (12, 13, 14, 15, 16); 
+
+SELECT
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            u.id user_id,
+            u.first_name user_first,
+            u.last_name user_last,
+            u.email user_email,
+            u.bio user_bio,
+            u.username user_username,
+            u.password user_password,
+            u.profile_image_url user_img,
+            u.created_on user_created,
+            u.active user_active,
+            c.id category_id,
+            c.label category_name,
+            pt.id posttag_id,
+            pt.post_id post_id,
+            pt.tag_id tag_id
+        FROM Posts p
+        JOIN Users u
+            ON u.id = p.user_id
+        JOIN Categories c
+            ON c.id = p.category_id
+        JOIN PostTags pt
+            ON p.id = pt.post_id
+        

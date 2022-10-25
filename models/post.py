@@ -10,3 +10,4 @@ class Post():
         self.content = content
         self.category = None
         self.user = None
+        self.post_tag = None
