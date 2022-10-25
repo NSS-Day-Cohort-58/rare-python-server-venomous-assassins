@@ -68,3 +68,12 @@ def create_post_tag(new_post_tag):
         new_post_tag["id"] = id
 
     return json.dumps(new_post_tag)
+
+def delete_post_tag(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM PostTags
+        WHERE id = ?
+        """, (id, ))
