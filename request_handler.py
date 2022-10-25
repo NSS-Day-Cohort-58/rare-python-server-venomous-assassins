@@ -70,7 +70,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource =='post_tags':
                 self._set_headers(200)
-                response = get_all_post_tags()
+                response = get_all_post_tags(query_params)
 
 
             if resource == 'posts':
