@@ -4,7 +4,7 @@ import json
 from urllib.parse import urlparse, parse_qs
 from views.categories_request import create_category, get_all_categories
 from views.comment_requests import delete_comment, get_comments_by_post_id
-from views.post_tags_requests import create_post_tag, get_all_post_tags
+from views.post_tags_requests import create_post_tag, delete_post_tag, get_all_post_tags
 from views.posts_requests import get_all_posts, create_post, get_single_post, delete_post, update_post
 from views.categories_request import get_all_categories, create_category
 from views.tag_requests import create_tag, delete_tag, get_all_tags, update_tag
@@ -70,7 +70,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource =='post_tags':
                 self._set_headers(200)
-                response = get_all_post_tags()
+                response = get_all_post_tags(query_params)
 
 
             if resource == 'posts':
@@ -191,6 +191,10 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "comments":
             delete_comment(id)
+            self._set_headers(204)
+        
+        if resource == "post_tags":
+            delete_post_tag(id)
             self._set_headers(204)
 
         self.wfile.write("".encode())
