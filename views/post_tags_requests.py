@@ -6,7 +6,7 @@ from models.postTag import PostTag
 from models.tag import Tag
 
 
-def get_all_post_tags(query_params): ##might not need this function but leaving here just in case
+def get_all_post_tags(query_params): 
     with sqlite3.connect("./db.sqlite3") as conn: 
 
         conn.row_factory = sqlite3.Row
@@ -68,3 +68,12 @@ def create_post_tag(new_post_tag):
         new_post_tag["id"] = id
 
     return json.dumps(new_post_tag)
+
+def delete_post_tag(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM PostTags
+        WHERE id = ?
+        """, (id, ))
