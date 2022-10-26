@@ -130,16 +130,13 @@ INSERT INTO `PostTags` VALUES (null, 4, 2);
 INSERT INTO  `PostTags` VALUES (null, 1, 5);
 INSERT INTO `PostTags` VALUES (null, 4, 1);
 
-SELECT 
-  pt.*,
-  t.label
-FROM PostTags pt
-JOIN Tags t
-  ON t.id = pt.tag_id
-WHERE post_id = 5;
+SELECT * FROM Categories
 
 DELETE FROM PostTags
 WHERE post_id IN (12, 13, 14, 15, 16);
 
 DELETE FROM Posts
 WHERE id IN (12, 13, 14, 15, 16); 
+
+
+        

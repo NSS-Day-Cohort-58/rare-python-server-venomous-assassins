@@ -76,7 +76,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if resource == 'posts':
                 if id is None:
                     self._set_headers(200)
-                    response = get_all_posts()
+                    response = get_all_posts(query_params)
                 else:
                     self._set_headers(200)
                     response = get_single_post(id)
@@ -113,6 +113,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             if resource == 'post_tags':
                 self._set_headers(200)
                 response = get_all_post_tags(query_params)
+            if resource == 'posts':
+                self._set_headers(200)
+                response = get_all_posts(query_params)
 
         self.wfile.write(json.dumps(response).encode())
 

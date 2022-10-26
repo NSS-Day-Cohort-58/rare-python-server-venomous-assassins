@@ -1,18 +1,31 @@
 from cProfile import label
 import sqlite3
 from models.post import Post
+from models.postTag import PostTag
+from models.tag import Tag
 from models.user import User
 from models.category import Category
 import json
 
 
-def get_all_posts():
+def get_all_posts(query_params):
     with sqlite3.connect("./db.sqlite3") as conn:
 
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
-        db_cursor.execute("""
+        where_clause = ""
+
+        if len(query_params) != 0: #query param found in url
+            param = query_params[0]
+            [qs_key, qs_value] = param.split("=")
+
+            if qs_key == "category_id":
+                where_clause = f"WHERE p.category_id = {qs_value}"
+            if qs_key == "user_id":
+                where_clause = f"WHERE p.user_id = {qs_value}"
+
+        db_cursor.execute(f"""
         SELECT
             p.id,
             p.user_id,
@@ -38,6 +51,7 @@ def get_all_posts():
             ON u.id = p.user_id
         JOIN Categories c
             ON c.id = p.category_id
+        {where_clause}
         ORDER BY publication_date DESC
         """)
 
@@ -54,12 +68,51 @@ def get_all_posts():
                         row['user_username'], row['user_password'], row['user_img'], row['user_created'], row['user_active'])
 
             category = Category(row['category_id'], row['category_name'])
+            
 
             post.user = user.__dict__
             post.category = category.__dict__
             posts.append(post.__dict__)
 
         return posts
+
+# def get_posts_by_category(query_params):
+#     with sqlite3.connect("./db.sqlite3") as conn:
+
+#         conn.row_factory = sqlite3.Row
+#         db_cursor = conn.cursor()
+
+#         if len(query_params) != 0: #query param found in url
+#             param = query_params[0]
+#             [qs_key, qs_value] = param.split("=")
+#             category_id = int(qs_value)
+                
+#         db_cursor.execute("""
+#         SELECT
+#             p.id,
+#             p.user_id,
+#             p.category_id,
+#             p.title,
+#             p.publication_date,
+#             p.image_url,
+#             p.content
+#         FROM Posts p
+#             WHERE category_id = ?
+#         """, ( category_id, ))
+
+#         posts = []
+
+#         dataset = db_cursor.fetchall()
+
+#         for row in dataset:
+
+#             post = Post(row['id'], row['user_id'], row['category_id'], row['title'],
+#                         row['publication_date'], row['image_url'], row['content'])
+
+#             posts.append(post.__dict__)
+
+#         return posts
+
 
 
 
