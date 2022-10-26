@@ -24,8 +24,6 @@ def get_all_posts(query_params):
                 where_clause = f"WHERE p.category_id = {qs_value}"
             if qs_key == "user_id":
                 where_clause = f"WHERE p.user_id = {qs_value}"
-            if qs_key == "tag_id":
-                where_clause = f"WHERE pt.tag_id = {qs_value}"
 
         db_cursor.execute(f"""
         SELECT
@@ -47,17 +45,12 @@ def get_all_posts(query_params):
             u.created_on user_created,
             u.active user_active,
             c.id category_id,
-            c.label category_name,
-            pt.id posttag_id,
-            pt.post_id post_id,
-            pt.tag_id tag_id
+            c.label category_name
         FROM Posts p
         JOIN Users u
             ON u.id = p.user_id
         JOIN Categories c
             ON c.id = p.category_id
-        JOIN PostTags pt
-            ON p.id = pt.post_id
         {where_clause}
         ORDER BY publication_date DESC
         """)
@@ -75,11 +68,10 @@ def get_all_posts(query_params):
                         row['user_username'], row['user_password'], row['user_img'], row['user_created'], row['user_active'])
 
             category = Category(row['category_id'], row['category_name'])
-            post_tag = PostTag(row['posttag_id'], row['post_id'], row['tag_id'])
+            
 
             post.user = user.__dict__
             post.category = category.__dict__
-            post.post_tag = post_tag.__dict__
             posts.append(post.__dict__)
 
         return posts
